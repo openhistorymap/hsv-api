@@ -256,9 +256,11 @@ AS $$
 $$; 
 """
 
-@click.group()
-def cli():
-    pass
+@click.group(invoke_without_command=True)
+@click.pass_context
+def cli(ctx):
+    if ctx.invoked_subcommand is None:
+        ctx.invoke(run)
 
 @click.command()
 @click.option('--dbname', default=POSTGRES_DBNAME, help='database name')
